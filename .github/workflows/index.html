@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Password Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 320px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            background: white;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        button {
+            background: #ff9800;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e68900;
+        }
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        label {
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Password Generator</h2>
+        <input type="text" id="password" readonly>
+        <button onclick="generatePassword()">Generate</button>
+        <button onclick="copyPassword()">Copy</button>
+
+        <div class="options">
+            <label>
+                Length:
+                <input type="number" id="length" min="6" max="30" value="12">
+            </label>
+            <label>
+                <input type="checkbox" id="uppercase" checked> Uppercase
+            </label>
+            <label>
+                <input type="checkbox" id="numbers" checked> Numbers
+            </label>
+            <label>
+                <input type="checkbox" id="symbols"> Symbols
+            </label>
+        </div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = document.getElementById("length").value;
+            const includeUppercase = document.getElementById("uppercase").checked;
+            const includeNumbers = document.getElementById("numbers").checked;
+            const includeSymbols = document.getElementById("symbols").checked;
+
+            let characters = "abcdefghijklmnopqrstuvwxyz";
+            if (includeUppercase) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            if (includeNumbers) characters += "0123456789";
+            if (includeSymbols) characters += "!@#$%^&*()_+-=[]{}|;:'\",.<>?/";
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += characters[Math.floor(Math.random() * characters.length)];
+            }
+
+            document.getElementById("password").value = password;
+        }
+
+        function copyPassword() {
+            const passwordField = document.getElementById("password");
+            passwordField.select();
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
